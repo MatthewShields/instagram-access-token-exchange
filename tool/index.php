@@ -35,29 +35,56 @@
         </a>
       </header>
 
+      <?php
+
+      if(isset($_GET['client_id']) && isset($_GET['client_secret']) && isset($_GET['short_lived_access_token']) ) {
+
+        $client_id = str_replace(' ', '', $_GET['client_id']);
+        $client_secret = str_replace(' ', '', $_GET['client_secret']);
+        $short_lived_access_token = str_replace(' ', '', $_GET['short_lived_access_token']);
+
+      }
+
+      elseif(isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST['short_lived_access_token']) ) {
+
+        $client_id = str_replace(' ', '', $_POST['client_id']);
+        $client_secret = str_replace(' ', '', $_POST['client_secret']);
+        $short_lived_access_token = str_replace(' ', '', $_POST['short_lived_access_token']);
+
+      }
+
+      else {
+
+        $client_id = '';
+        $client_secret = '';
+        $short_lived_access_token = '';
+        
+      }
+      ?>
+
       <main>
-        <h1>What the Instagram Token Exchange tool is for</h1>
+        <h1>Access Token Exchange</h1>
         <p class="fs-5 col-md-8">For using the Instagram oEmbed API you will need to create an application. As part of that process you will be given a short term lived access token which lasts only an hour. This tool will help you exchange this token for a long term access token, which lasts 60 days and can be programatically refreshed.</p>
         <p>
           <strong>Note: This tool isn't specific to the oEmbed API though and can exchange any short term lived access token.</strong>
         </p>
 
-        <form method="POST">
+        <form method="GET">
           <div class="row g-3 my-2">
             <div class="col-sm-6">
               <label for="client_id" class="form-label">Client ID</label>
-              <input type="text" class="form-control" id="client_id" name="client_id" placeholder="" value="<?php echo (isset($_POST['client_id']) ? $_POST['client_id'] : ''); ?>" required="" />
+              <input type="text" class="form-control" id="client_id" name="client_id" placeholder="" value="<?php echo $client_id; ?>" required="" />
             </div>
 
             <div class="col-sm-6">
               <label for="client_secret" class="form-label">Client Secret</label>
-              <input type="text" class="form-control" id="client_secret" name="client_secret" placeholder="" value="<?php echo (isset($_POST['client_secret']) ? $_POST['client_secret'] : ''); ?>" required="" />
+              <input type="text" class="form-control" id="client_secret" name="client_secret" placeholder="" value="<?php echo $client_secret; ?>" required="" />
             </div>
           </div>
           <div class="row g-3 my-2">
             <div class="col-sm-12">
               <label for="short_lived_access_token" class="form-label">Short Lived Access Token</label>
-              <input type="text" class="form-control" id="short_lived_access_token" name="short_lived_access_token" placeholder="" value="<?php echo (isset($_POST['short_lived_access_token']) ? $_POST['short_lived_access_token'] : ''); ?>" required="" />
+              <input type="text" class="form-control" id="short_lived_access_token" name="short_lived_access_token" placeholder="" value="<?php echo $short_lived_access_token; ?>" required="" />
             </div>
           </div>
 
@@ -68,11 +95,7 @@
 
 				$display_output = false;
 
-				if(isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST['short_lived_access_token']) ) {
-
-					$client_id = str_replace(' ', '', $_POST['client_id']);
-					$client_secret = str_replace(' ', '', $_POST['client_secret']);
-					$short_lived_access_token = str_replace(' ', '', $_POST['short_lived_access_token']);
+				if( $client_id !== '' && $client_secret !== '' && $short_lived_access_token !== '' ) {
 
 					$display_output = true;
 

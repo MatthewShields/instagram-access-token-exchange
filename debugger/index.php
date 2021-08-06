@@ -35,15 +35,36 @@
         </a>
       </header>
 
+      <?php
+
+      if( isset($_GET['access_token']) ) {
+
+        $access_token = str_replace(' ', '', $_GET['access_token']);
+
+      }
+
+      elseif( isset($_POST['access_token']) ) {
+
+        $access_token = str_replace(' ', '', $_POST['access_token']);
+
+      }
+
+      else {
+
+        $access_token = '';
+        
+      }
+      ?>
+
       <main>
         <h1>Access Token Debugger</h1>
         <p class="fs-5 col-md-8">This tool will let you debug an existing access token including if it is valid and how long till it expires.</p>
 
-        <form method="POST">
+        <form method="GET">
           <div class="row g-3 my-2">
             <div class="col-sm-12">
               <label for="access_token" class="form-label">Access Token</label>
-              <input type="text" class="form-control" id="access_token" name="access_token" placeholder="" value="<?php echo (isset($_POST['access_token']) ? $_POST['access_token'] : ''); ?>" required="" />
+              <input type="text" class="form-control" id="access_token" name="access_token" placeholder="" value="<?php echo $access_token; ?>" required="" />
             </div>
           </div>
 
@@ -54,9 +75,7 @@
 
 				$display_output = false;
 
-				if( isset($_POST['access_token']) ) {
-
-					$access_token = str_replace(' ', '', $_POST['access_token']);
+				if( $access_token !== '' ) {
 
 					$display_output = true;
 
